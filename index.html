@@ -7,7 +7,6 @@
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -210,71 +209,213 @@
     </section>
 
 
-    <!-- ===================== TEASER FIGURE (placeholder) ===================== -->
-    <!--
-    <section id="teaser" class="section">
+    <!-- ===================== WHERE CAN ∆LPS BE APPLIED? ===================== -->
+    <section id="overview" class="section">
       <div class="container">
-        <h2 class="title is-3 has-text-centered">Overview</h2>
-        <figure style="max-width: 1000px; margin: 0 auto;">
-          <img src="./static/images/teaser.png" alt="∆LPS overview" class="img-card">
-          <figcaption>
-            \(\Delta\text{LPS}\) enables training-free discrete posterior sampling with discrete
-            diffusion priors. Shown are results from linear, nonlinear, and blind image
-            restoration tasks across MNIST, CIFAR, and FFHQ.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-    -->
-
-
-    <!-- ===================== METHOD (placeholder) ===================== -->
-    <!--
-    <section id="method" class="section">
-      <div class="container">
-        <h2 class="title is-3">Method</h2>
-        <div class="method-split">
-          <div>
-            <p>
-              At each reverse diffusion step, \(\Delta\text{LPS}\) computes gradient information
-              with respect to a log-posterior potential
-              \(U(z_0;\, z_t, y) = \log p(y|z_0) + \log p_\theta(z_0|z_t)\).
-              Rather than stepping continuously, this gradient is used to parameterize a
-              Langevin-inspired categorical proposal over the discrete state space. Because the
-              proposal factorizes over all token dimensions, every coordinate can be sampled in
-              parallel. The clean latent \(\hat{z}_0\) is then renoised to time \(s < t\) using
-              the standard forward process.
-            </p>
-          </div>
-          <figure class="figure-narrow">
-            <img src="./static/images/method.png" alt="Method diagram" class="img-full">
-          </figure>
+        <h2 class="title is-3 has-text-centered">Where can \(\Delta\text{LPS}\) be useful?</h2>
+        <div class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+          <p>
+            \(\Delta\text{LPS}\) is a training-free posterior sampler, i.e., it requires no additional
+            training or fine-tuning beyond the discrete diffusion prior itself. Our method can be
+            applied to many inverse problems where the ground truth lives in, or can be tokenized into, a
+            discrete state space. We show results across various linear and nonlinear inverse
+            problems on FFHQ (HDR reconstruction, super-resolution, deblurring, inpainting),
+            binary operators like XOR/AND on MNIST, inpainting regions on CIFAR, and blind inverse
+            problems in spatial mapping, with no task-specific
+            modifications.
+          </p>
         </div>
+        <figure style="margin: 0 auto;">
+          <img src="./static/images/teaser2.png" alt="∆LPS results across tasks and datasets" class="img-full">
+        </figure>
       </div>
     </section>
-    -->
 
 
-    <!-- ===================== RESULTS (placeholder) ===================== -->
-    <!--
-    <section id="results" class="section">
+    <!-- ===================== ALGORITHM ===================== -->
+    <section id="algorithm" class="section">
       <div class="container">
-        <h2 class="title is-3">Results</h2>
-        <h3 class="title is-4">Image Restoration</h3>
-        <figure>
-          <img src="./static/images/results_image.png" alt="Image restoration results" class="img-full">
-          <figcaption>
-            Qualitative image restoration results on MNIST, CIFAR, and FFHQ across linear,
-            nonlinear, and blind inverse problems.
-          </figcaption>
-        </figure>
-        <h3 class="title is-4" style="margin-top: 2rem;">Quantitative Comparison</h3>
-        <figure>
-          <img src="./static/images/table_main.png" alt="Quantitative results" class="img-full">
+        <h2 class="title is-3 has-text-centered">How does \(\Delta\text{LPS}\) work?</h2>
+        <!-- add a para saying below, we provide the algorithm overview -->
+         <p class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+            \(\Delta\text{LPS}\) is a discrete Langevin-inspired posterior sampler that uses gradient
+            information to construct informed transition probabilities between valid discrete states.
+            By operating entirely in the discrete state space, our method avoids the pitfalls of
+            soft-token optimization and projection back to discrete tokens. The resulting proposal
+            factorizes across coordinates, enabling efficient parallel updates across all token
+            dimensions. Moreover, \(\Delta\text{LPS}\) is agnostic to the training paradigm of the
+            discrete diffusion prior, making it broadly applicable across domains and prior types.
+            Our algorithm overview is shown below.
+          </p>
+        <figure style="margin: 0 auto;">
+          <img src="./static/images/algo.png" alt="∆LPS algorithm" class="img-full">
         </figure>
       </div>
     </section>
-    -->
+
+
+    <!-- ===================== RESULTS: FFHQ COMPARISON ===================== -->
+    <section id="results-ffhq" class="section">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">How does \(\Delta\text{LPS}\) compare to existing methods?</h2>
+        <div class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+          <p>
+            We compare \(\Delta\text{LPS}\) against continuous diffusion-based baselines (DPS,
+            PSLD) and the discrete baseline APS across four FFHQ tasks: HDR reconstruction,
+            \(4\times\) super-resolution, Gaussian deblurring, and random inpainting. Across
+            all tasks, our reconstructions are visually comparable to the baselines, preserving
+            facial details and perceptual quality even under severe corruptions, entirely operating in the discrete space.
+          </p>
+        </div>
+        <figure style="margin: 0 auto;">
+          <img src="./static/images/mainfig.png" alt="FFHQ comparison across inverse problems" class="img-full">
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ===================== RESULTS: TASK-BY-TASK ===================== -->
+    <section id="results-tasks" class="section">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Task-by-task results on FFHQ</h2>
+        <div class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+          <p>
+            Below we show individual task breakdowns on more qualitative examples. Each row contains the ground truth,
+            the corrupted measurement, and the \(\Delta\text{LPS}\) reconstruction.
+          </p>
+        </div>
+
+        <div class="columns" style="margin-bottom: 1.5rem;">
+          <div class="column">
+            <p class="has-text-centered" style="font-weight: 600; margin-bottom: 0.5rem;">HDR Reconstruction</p>
+            <figure><img src="./static/images/HDR.png" alt="HDR reconstruction results" class="img-full"></figure>
+          </div>
+          <div class="column">
+            <p class="has-text-centered" style="font-weight: 600; margin-bottom: 0.5rem;">\(4\times\) Super-Resolution</p>
+            <figure><img src="./static/images/SR.png" alt="Super-resolution results" class="img-full"></figure>
+          </div>
+          <div class="column">
+            <p class="has-text-centered" style="font-weight: 600; margin-bottom: 0.5rem;">Gaussian Deblurring</p>
+            <figure><img src="./static/images/Deblur.png" alt="Deblurring results" class="img-full"></figure>
+          </div>
+        </div>
+
+        <div class="columns" style="margin-bottom: 1.5rem;">
+          <div class="column">
+            <p class="has-text-centered" style="font-weight: 600; margin-bottom: 0.5rem;">Random Inpainting</p>
+            <figure><img src="./static/images/Inpainting.png" alt="Inpainting results" class="img-full"></figure>
+          </div>
+          <div class="column">
+            <p class="has-text-centered" style="font-weight: 600; margin-bottom: 0.5rem;">Motion Deblurring</p>
+            <figure><img src="./static/images/Motion.png" alt="Motion deblurring results" class="img-full"></figure>
+          </div>
+        </div>
+
+        <!-- FFHQ quantitative table -->
+        <h3 class="title is-4 has-text-centered" style="margin-top: 2rem;">Quantitative results on FFHQ</h3>
+        <div class="content" style="max-width: 900px; margin: 0 auto 0.75rem auto;">
+          <p>
+            We report PSNR (dB, higher is better) and LPIPS (lower is better) across five inverse
+            problems, comparing \(\Delta\text{LPS}\) against various continuous baselines and
+            discrete baseline. \(\Delta\text{LPS}\) outperforms all the discrete baselines in LPIPS across all the 5 tasks.
+            In terms of PNSR, our results are on par with other baselines.
+          </p>
+        </div>
+        <figure style="margin: 0 auto 1rem auto;">
+          <img src="./static/images/ffhq_table.png" alt="FFHQ quantitative results table" class="img-full">
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ===================== RESULTS: MNIST & CIFAR ===================== -->
+    <section id="results-mnist-cifar" class="section">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">What about tasks beyond FFHQ?</h2>
+        <div class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+          <p>
+            We also evaluate on MNIST and CIFAR-10 on various tasks such as binary operators (XOR/AND), inpainting missing regions, and other corruptions across different difficulty levels. 
+            To demonstrate that \(\Delta\text{LPS}\) is prior-agnostic, we report results using both the MDLM and DUO priors.
+            <!-- , trained with different noise -->
+            <!-- schedules and objectives.  -->
+            <!-- Baselines are SGDD (two budget variants) and G2D2. -->
+          </p>
+        </div>
+
+        <h3 class="title is-4">MNIST</h3>
+        <figure style="margin: 0 auto 1rem auto;">
+          <img src="./static/images/mnist.png" alt="MNIST qualitative results" class="img-full">
+        </figure>
+        <div class="content" style="max-width: 900px; margin: 0 auto 0.5rem auto;">
+          <p>
+            We report token accuracy (%) and PSNR (dB) across four operators (Inpainting, Box,
+            XOR, AND) at easy/medium/hard difficulty. Both MDLM and DUO priors consistently match
+            or surpass SGDD and G2D2. The advantage widens as difficulty increases, showing
+            robustness to ill-posedness.
+          </p>
+        </div>
+        <figure style="margin: 0 auto 2rem auto;">
+          <img src="./static/images/mnist_table.png" alt="MNIST quantitative results table" class="img-full">
+        </figure>
+
+        <h3 class="title is-4">CIFAR-10</h3>
+        <div class="content" style="max-width: 900px; margin: 0 auto 0.5rem auto;">
+          <p>
+            On CIFAR-10, we report PSNR (dB) and SSIM across inpainting and box-inpainting at
+            three difficulty levels. \(\Delta\text{LPS}\) (DUO) leads across both tasks at all
+            difficulty levels.
+            <!-- , with more gains in the hard regime. -->
+          </p>
+        </div>
+        <figure style="margin: 0 auto 1rem auto;">
+          <img src="./static/images/cifar_table.png" alt="CIFAR quantitative results table" class="img-full">
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ===================== RESULTS: BLIND / FLOORPLAN ===================== -->
+    <section id="results-beyond" class="section">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Does \(\Delta\text{LPS}\) work on blind inverse problems?</h2>
+        <div class="content" style="max-width: 900px; margin: 0 auto 1.5rem auto;">
+          <p>
+            Yes. We evaluate on inferring the spatial map of an indoor environment from simulated
+            human walking trajectories, where the forward measurement operator is only partially
+            known (the user roughly follows the shortest path between two points).
+            We achieve this by replacing the likelihood-gradient term in the posterior potential
+            with a learned contrastive surrogate. The discrete Langevin proposal and parallel categorical update remain
+            identical to the standard setting.
+          </p>
+        </div>
+
+        <figure style="margin: 0 auto 1.5rem auto;">
+          <img src="./static/images/floorplan1.png" alt="Floorplan blind inverse problem overview" class="img-full">
+        </figure>
+
+        <!-- <div class="content" style="max-width: 900px; margin: 0 auto 0.75rem auto;">
+          <p>
+            Below we show more qualitative examples. Each row contains the ground truth floorplan,
+            the measured walking trajectory, and the \(\Delta\text{LPS}\) reconstruction.
+          </p>
+        </div>
+        <figure style="max-width: 34%; margin: 0 auto 1.5rem auto;">
+          <img src="./static/images/Floorplan.png" alt="Floorplan qualitative results" class="img-full">
+        </figure> -->
+
+        <div class="content" style="max-width: 900px; margin: 0 auto 0.5rem auto;">
+          <p>
+            We report F1 and IoU for sparse and moderate trajectory density regimes, comparing
+            against continuous baselines (DPS+path planner variants, DiffPIR, DMPlug, CFG) and CoGuide.
+            \(\Delta\text{LPS}\) outperforms all continuous baselines in the sparse regime and
+            matches CoGuide in the moderate regime.
+          </p>
+        </div>
+        <figure style="margin: 0 auto 1rem auto;">
+          <img src="./static/images/floorplan_table.png" alt="Floorplan quantitative results table" class="img-full">
+        </figure>
+      </div>
+    </section>
 
 
   </main>
