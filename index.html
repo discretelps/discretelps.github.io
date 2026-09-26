@@ -43,6 +43,26 @@
     .subtitle-meta { font-size: 1.5rem; color: #c44; font-weight: 600; margin-top: 0.5rem; text-align: center; }
     .hero .container p { text-align: center !important; }
 
+    /* Hero gets the full width so the title fits on one line on laptops */
+    .hero .container { max-width: none; padding-left: 2rem; padding-right: 2rem; }
+    .hero .title.is-1 { font-size: clamp(1.9rem, 2.8vw, 3rem); line-height: 1.25; }
+
+    .author-list {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      column-gap: 2.25rem; row-gap: 0.4rem;
+      margin-top: 1.25rem; font-size: 1.25rem;
+    }
+    .author-list a, .author-list span { white-space: nowrap; }
+    .affiliation { margin-top: 0.6rem; font-size: 1.2rem; color: #444; }
+    .links-row { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .button .icon { margin-right: 0.35rem; }
+    .equal-note { margin-top: 0.4rem; font-size: 0.95rem; font-style: italic; color: #666; }
+    .author-list sup { color: #444; margin-left: 0.1rem; }
+    @media (max-width: 768px) {
+      .author-list { column-gap: 1.25rem; font-size: 1.1rem; }
+      .affiliation { font-size: 1.05rem; }
+    }
+
     .footer { background: #f5f5f5; padding: 0.75rem 1rem; margin-top: auto; }
     .footer .content { margin: 0 auto; }
     .footer p { text-align: center !important; margin: 0; }
@@ -69,20 +89,6 @@
     }
     @media (max-width: 1024px) {
       .method-split { grid-template-columns: 1fr; gap: 1.25rem; }
-    }
-
-    /* Anonymous / under-submission banner */
-    .anon-badge {
-      display: inline-block;
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffc107;
-      padding: 0.35rem 1.1rem;
-      border-radius: 20px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-top: 0.75rem;
-      letter-spacing: 0.3px;
     }
 
     /* Contributions list */
@@ -136,7 +142,21 @@
             \(\Delta\text{LPS}\): Discrete Langevin-Inspired Posterior Sampling
           </h1>
 
-          <p class="subtitle-meta">In Submission</p>
+          <p class="subtitle-meta">NeurIPS 2026</p>
+          <div class="author-list">
+            <span><a href="https://achaitanya.web.illinois.edu/" target="_blank">Chaitanya Amballa</a><sup>*</sup></span>
+            <span><a href="https://basusattwik.github.io/" target="_blank">Sattwik Basu</a><sup>*</sup></span>
+            <span>Jorge Vančo Sampedro</span>
+            <a href="https://croy.web.engr.illinois.edu/" target="_blank">Romit Roy Choudhury</a>
+          </div>
+          <p class="affiliation">University of Illinois Urbana-Champaign</p>
+          <p class="equal-note"><sup>*</sup>Equal contribution. Shared author order determined by the toss of a fair coin.</p>
+          <div class="links-row">
+            <a class="button is-dark is-normal is-rounded"
+              href="https://arxiv.org/pdf/2605.09302" target="_blank" rel="noopener">
+              <span class="icon">📄</span><span>Paper</span>
+            </a>
+          </div>
 
           <p class="muted" style="margin-top: 2.5rem; margin-bottom: -1rem; max-width: 860px; margin-left: auto; margin-right: auto;">
             (TL;DR) We propose \(\Delta\text{LPS}\), a training-free discrete Langevin-inspired
@@ -420,12 +440,6 @@
 
   </main>
 
-
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>This site is anonymized for blind review. Do not distribute.</p>
-    </div>
-  </footer>
 
 </body>
 </html>
